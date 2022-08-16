@@ -15,6 +15,7 @@ class WeatherForecast extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
         backgroundColor: Colors.red,
         elevation: 0,
       ),
