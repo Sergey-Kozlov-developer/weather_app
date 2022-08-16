@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/presentation/home/widgets/bottom_detail.dart';
 
 class WeatherForecast extends StatelessWidget {
   const WeatherForecast({Key? key}) : super(key: key);
@@ -17,18 +18,7 @@ class WeatherForecast extends StatelessWidget {
         backgroundColor: Colors.red,
         elevation: 0,
       ),
-      body: const WeatherForecastMain(),
-    );
-  }
-}
-
-class WeatherForecastMain extends StatelessWidget {
-  const WeatherForecastMain({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: WeatherForecastBody(),
+      body: const WeatherForecastBody(),
     );
   }
 }
@@ -43,13 +33,22 @@ class WeatherForecastBody extends StatelessWidget {
       children: const [
         _SearchCityNameWidget(),
         SizedBox(height: 20),
-        _CityNameWidget(),
+        _CityDetailWidget(),
         SizedBox(height: 40),
-        _TemperatureWidget(),
+        _TemperatureDetailWidget(),
         SizedBox(height: 40),
-        _TemperatureDescriptionWidget(),
+        _ExtraWeatherDetailWidget(),
         SizedBox(height: 40),
-        _DayWeatherForecastWidget(),
+        Text(
+          '7-DAY WEATHER FORECAST',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        // SizedBox(height: 15),
+        Expanded(child: _BottomDetailWidget()),
       ],
     );
   }
@@ -60,29 +59,22 @@ class _SearchCityNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const [
-          Icon(
-            Icons.search,
-            color: Colors.white,
-            size: 18,
-          ),
-          SizedBox(width: 10),
-          Text(
-            'Enter City Name',
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
+    return const Padding(
+      padding: EdgeInsets.only(left: 10),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Enter City Name',
+          hintStyle: TextStyle(color: Colors.white),
+          icon: Icon(Icons.search, color: Colors.white, size: 18),
+          border: InputBorder.none,
+        ),
       ),
     );
   }
 }
 
-class _CityNameWidget extends StatelessWidget {
-  const _CityNameWidget({Key? key}) : super(key: key);
+class _CityDetailWidget extends StatelessWidget {
+  const _CityDetailWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +94,8 @@ class _CityNameWidget extends StatelessWidget {
   }
 }
 
-class _TemperatureWidget extends StatelessWidget {
-  const _TemperatureWidget({Key? key}) : super(key: key);
+class _TemperatureDetailWidget extends StatelessWidget {
+  const _TemperatureDetailWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,48 +127,45 @@ class _TemperatureWidget extends StatelessWidget {
   }
 }
 
-class _TemperatureDescriptionWidget extends StatelessWidget {
-  const _TemperatureDescriptionWidget({Key? key}) : super(key: key);
+class _ExtraWeatherDetailWidget extends StatelessWidget {
+  const _ExtraWeatherDetailWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+        Column(
+          children: const [
             Icon(Icons.ac_unit, color: Colors.white),
-            Icon(Icons.ac_unit, color: Colors.white),
-            Icon(Icons.ac_unit, color: Colors.white),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
-          children: [
             Text(
               '5',
               style: TextStyle(color: Colors.white),
             ),
             Text(
-              '3',
-              style: TextStyle(color: Colors.white),
-            ),
-            Text(
-              '20',
+              'km/hr',
               style: TextStyle(color: Colors.white),
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+        Column(
+          children: const [
+            Icon(Icons.ac_unit, color: Colors.white),
             Text(
-              'km/hr',
+              '3',
               style: TextStyle(color: Colors.white),
             ),
             Text(
               '%',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+        Column(
+          children: const [
+            Icon(Icons.ac_unit, color: Colors.white),
+            Text(
+              '20',
               style: TextStyle(color: Colors.white),
             ),
             Text(
@@ -190,83 +179,48 @@ class _TemperatureDescriptionWidget extends StatelessWidget {
   }
 }
 
-class _DayWeatherForecastWidget extends StatelessWidget {
-  const _DayWeatherForecastWidget({Key? key}) : super(key: key);
+class _BottomDetailWidget extends StatelessWidget {
+  const _BottomDetailWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          '7-day weather forecast'.toUpperCase(),
-          style: TextStyle(color: Colors.white),
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: const [
+        BottomDetails(
+          textDay: 'Monday',
+          textTemperature: '6 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
         ),
-        const SizedBox(height: 10),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  width: 170,
-                  height: 150,
-                  color: Colors.red.shade100,
-                  child: Column(
-                    children: [
-                      Text('Friday'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('6 °F'),
-                          Icon(Icons.wb_sunny),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Container(
-                  width: 170,
-                  height: 150,
-                  color: Colors.red.shade100,
-                  child: Column(
-                    children: [
-                      Text('Friday'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('6 °F'),
-                          Icon(Icons.wb_sunny),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Container(
-                  width: 170,
-                  height: 150,
-                  color: Colors.red.shade100,
-                  child: Column(
-                    children: [
-                      Text('Friday'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('6 °F'),
-                          Icon(Icons.wb_sunny),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+        BottomDetails(
+          textDay: 'Tuesday',
+          textTemperature: '15 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
+        ),
+        BottomDetails(
+          textDay: 'Wednesday',
+          textTemperature: '20 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
+        ),
+        BottomDetails(
+          textDay: 'Thursday',
+          textTemperature: '17 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
+        ),
+        BottomDetails(
+          textDay: 'Friday',
+          textTemperature: '10 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
+        ),
+        BottomDetails(
+          textDay: 'Saturday',
+          textTemperature: '9 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
+        ),
+        BottomDetails(
+          textDay: 'Sunday',
+          textTemperature: '18 °F',
+          icon: Icon(Icons.wb_sunny, color: Colors.white, size: 50),
         ),
       ],
     );
